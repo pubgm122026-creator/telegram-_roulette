@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Elite Force Roulette</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#10091c;--panel:#1b102b;--panel2:#24143a;--gold:#ffbd63;--purple:#8f4cff;--text:#fff;--muted:#a99db9;--line:#392550;--danger:#ff5578}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#392052 0,#10091c 42%,#08050d 100%);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}.wrap{max-width:520px;margin:auto;padding:14px 14px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin:4px 0 14px}.brand{font-weight:900;letter-spacing:.8px}.coin{background:#21142f;border:1px solid var(--line);padding:9px 12px;border-radius:14px;color:var(--gold);font-weight:800}.card{background:linear-gradient(145deg,#21122f,#150d22);border:1px solid var(--line);border-radius:22px;padding:15px;margin:12px 0;box-shadow:0 12px 30px #0005}.hero{text-align:center}.hero h1{font-size:22px;margin:4px 0}.hero p{color:var(--muted);margin:5px 0 0;font-size:13px}.wheelBox{position:relative;width:min(88vw,390px);aspect-ratio:1;margin:18px auto}.wheel{width:100%;height:100%;border-radius:50%;border:9px solid #3b2354;box-shadow:0 0 0 3px #7b4caa,0 18px 45px #0009;position:relative;transition:transform 4s cubic-bezier(.12,.73,.15,1);overflow:hidden;background:conic-gradient(from -22.5deg,#5b3190 0 12.5%,#25173a 12.5% 25%,#9b5b28 25% 37.5%,#2b1b43 37.5% 50%,#6d3ca2 50% 62.5%,#2a193e 62.5% 75%,#8a4e27 75% 87.5%,#20132f 87.5% 100%)}.wheel:after{content:"";position:absolute;inset:19%;border-radius:50%;background:#140b21;border:2px solid #8b5ac1;box-shadow:inset 0 0 30px #000}.labels{position:absolute;inset:0}.label{position:absolute;left:50%;top:50%;width:90px;margin-left:-45px;margin-top:-11px;text-align:center;font-size:11px;font-weight:800;line-height:1.1;transform-origin:50% 11px}.pointer{position:absolute;z-index:3;top:-4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:28px solid var(--gold);filter:drop-shadow(0 4px 4px #000)}.center{position:absolute;z-index:4;left:50%;top:50%;transform:translate(-50%,-50%);width:105px;height:105px;border-radius:50%;border:5px solid #c07cff;background:radial-gradient(circle,#7e3ed1,#3a1670);color:#fff;font-size:18px;font-weight:900;box-shadow:0 0 28px #8f4cff88}.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:15px;padding:13px;font-weight:900;color:#fff;background:linear-gradient(135deg,#8744dd,#54249c);font-size:14px}.btn.gold{background:linear-gradient(135deg,#d99a4a,#8b4f19);color:#170b08}.btn.gray{background:#2b2037}.btn:disabled{opacity:.45}.info{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.nav{position:fixed;bottom:0;left:0;right:0;background:#120b1cdd;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:9px;z-index:10}.nav button{flex:1;max-width:120px;border:0;background:transparent;color:var(--muted);padding:8px 4px;border-radius:12px}.nav button.active{background:#2b1741;color:var(--gold)}.page{display:none}.page.active{display:block}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.small{font-size:12px;color:var(--muted)}.code{font-family:monospace;color:var(--gold);font-size:17px}.modal{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modalBox{width:100%;max-width:420px;background:#1c102b;border:1px solid #71439c;border-radius:24px;padding:22px;text-align:center}.modal.show{display:flex}.close{float:right;background:none;border:0;color:#fff;font-size:25px}.list{display:grid;gap:8px}.item{padding:12px;border:1px solid var(--line);border-radius:14px;background:#160d24}.danger{color:var(--danger)}input{width:100%;padding:11px;border-radius:12px;border:1px solid var(--line);background:#120b1c;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);background:#241532;border:1px solid #70439b;border-radius:12px;padding:11px 15px;display:none;z-index:30}.toast.show{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="brand">⚡ ELITE FORCE</div><div class="coin">🪙 <span id="coins">0</span></div></div>
+
+  <section id="roulette" class="page active">
+    <div class="card hero">
+      <h1>🎰 РУЛЕТКА</h1><p>Испытай удачу и забери награду</p>
+      <div class="wheelBox">
+        <div class="pointer"></div>
+        <div id="wheel" class="wheel">
+          <div id="labels" class="labels"></div>
+          <button id="spinCenter" class="center">КРУТИТЬ</button>
+        </div>
+      </div>
+      <div class="info"><span id="freeInfo">Проверка...</span><span id="paidInfo"></span></div>
+      <div class="buttons" style="margin-top:12px">
+        <button id="freeBtn" class="btn gold">🎁 БЕСПЛАТНО</button>
+        <button id="paidBtn" class="btn">🪙 100 МОНЕТ</button>
+      </div>
+    </div>
+    <div class="card"><b>🎯 Призы</b><div id="rewardList" class="list" style="margin-top:10px"></div></div>
+  </section>
+
+  <section id="ref" class="page">
+    <div class="card"><h2>👥 Рефералы</h2><p class="small">Приглашённый друг должен подписаться на канал и сделать первую прокрутку. После этого тебе начислится 100 монет.</p><input id="refLink" readonly><button class="btn" style="margin-top:10px;width:100%" onclick="copyRef()">📋 Скопировать ссылку</button></div>
+  </section>
+
+  <section id="exchange" class="page">
+    <div class="card"><h2>🔄 Обмен</h2><div class="item"><b>💎 3500 монет → 60 UC</b><p class="small">Код выдаётся вручную администратором. Срок кода — 10 дней.</p><button class="btn" style="width:100%" onclick="exchange('uc60')">Обменять</button></div><div class="item" style="margin-top:10px"><b>🏷️ 900 монет → 25% скидка на экипировку</b><p class="small">Код выдаётся вручную администратором. Срок кода — 10 дней.</p><button class="btn" style="width:100%" onclick="exchange('discount25')">Обменять</button></div></div>
+  </section>
+
+  <section id="codes" class="page"><div class="card"><h2>🔑 Мои коды</h2><div id="codesList" class="list"></div></div></section>
+
+  <section id="admin" class="page">
+    <div class="card"><h2>👑 Администратор</h2><div class="grid"><div class="item">Пользователи<br><b id="aUsers">0</b></div><div class="item">Прокрутки<br><b id="aSpins">0</b></div><div class="item">Ожидают<br><b id="aPending">0</b></div><div class="item">60 UC<br><b id="aInv">0</b></div></div></div>
+    <div class="card"><h3>⚙️ Настройки</h3><div class="grid" id="settings"></div><button class="btn gold" style="width:100%;margin-top:10px" onclick="saveSettings()">Сохранить настройки</button></div>
+    <div class="card"><h3>🔑 Коды</h3><div id="adminCodes" class="list"></div></div>
+  </section>
+</div>
+
+<div id="modal" class="modal"><div class="modalBox"><button class="close" onclick="closeModal()">×</button><div id="modalIcon" style="font-size:50px">🎁</div><h2 id="modalTitle"></h2><div id="modalText"></div><button class="btn gold" style="width:100%;margin-top:15px" onclick="closeModal()">ЗАКРЫТЬ</button></div></div>
+<div id="toast" class="toast"></div>
+<nav class="nav"><button class="active" data-page="roulette">🎰<br>Рулетка</button><button data-page="ref">👥<br>Реферал</button><button data-page="exchange">🔄<br>Обмен</button><button data-page="codes">🔑<br>Коды</button><button id="adminNav" data-page="admin" style="display:none">👑<br>Админ</button></nav>
+
+<script>
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+const initData=tg?.initData||"";
+let cfg=null, me=null, spinning=false, angle=0;
+const $=id=>document.getElementById(id);
+function api(url,opt={}){opt.headers={...(opt.headers||{}),"X-Telegram-Init-Data":initData,"Content-Type":"application/json"};return fetch(url,opt).then(async r=>{const d=await r.json().catch(()=>({error:"Ошибка сервера"}));if(!r.ok)throw new Error(d.error||"Ошибка");return d});}
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function showModal(title,text,icon="🎁"){$("modalIcon").textContent=icon;$("modalTitle").textContent=title;$("modalText").innerHTML=text;$("modal").classList.add("show")}
+function closeModal(){$("modal").classList.remove("show")}
+function nav(id){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));document.querySelector(`[data-page="${id}"]`)?.classList.add("active");if(id==="admin")loadAdmin()}
+document.querySelectorAll(".nav button").forEach(b=>b.onclick=()=>nav(b.dataset.page));
+function renderWheel(){
+  const labels=$("labels");labels.innerHTML="";
+  const arr=cfg.rewards; const step=360/arr.length;
+  arr.forEach((r,i)=>{const d=document.createElement("div");d.className="label";d.style.transform=`rotate(${i*step}deg) translateY(-145px) rotate(${-i*step}deg)`;d.textContent=r.label;labels.appendChild(d)});
+  $("rewardList").innerHTML=arr.map(r=>`<div class="item">${r.key==="uc60"?"💎":r.key==="discount25"?"🏷️":r.key==="nothing"?"😢":"🪙"} <b>${r.label}</b></div>`).join("");
+}
+function updateMe(){
+  $("coins").textContent=me.user.coins;
+  $("freeInfo").textContent=me.freeReady?"Бесплатная попытка доступна":"Бесплатная: через 24ч";
+  $("paidInfo").textContent=`Платные: ${me.paidUsed}/${me.paidLimit}`;
+  $("paidBtn").textContent=`🪙 ${me.paidCost} МОНЕТ`;
+  $("freeBtn").disabled=!me.freeReady;
+  $("paidBtn").disabled=me.paidUsed>=me.paidLimit||me.user.coins<me.paidCost;
+  $("refLink").value=me.referralLink;
+  $("adminNav").style.display=me.admin?"block":"none";
+  $("codesList").innerHTML=me.codes.length?me.codes.map(c=>`<div class="item"><b>${c.reward_label}</b><br><span class="code">${c.code}</span><br><span class="small">Статус: ${c.status} · до ${new Date(c.expires_at).toLocaleDateString("ru-RU")}</span></div>`).join(""):"<div class='small'>Кодов пока нет.</div>";
+}
+async function spin(kind){
+ if(spinning)return;spinning=true;
+ try{
+   const d=await api("/api/spin",{method:"POST",body:JSON.stringify({kind})});
+   const idx=cfg.rewards.findIndex(r=>r.key===d.reward.key);const step=360/cfg.rewards.length;
+   angle+=360*7 + (360-(idx*step+step/2));
+   $("wheel").style.transform=`rotate(${angle}deg)`;
+   setTimeout(()=>{let text=d.reward.label;if(d.code)text+=`<br><br>🔑 <span class="code">${d.code.code}</span><br><span class="small">Действует 10 дней. Передай код администратору.</span>`;showModal(d.reward.type==="nothing"?"В этот раз не повезло":"Поздравляем!",text,d.reward.key==="uc60"?"💎":d.reward.key==="discount25"?"🏷️":d.reward.key==="nothing"?"😢":"🪙");},4000);
+   setTimeout(async()=>{me=await api("/api/me");updateMe();spinning=false},4100);
+ }catch(e){toast(e.message);spinning=false}
+}
+$("freeBtn").onclick=()=>spin("free");$("paidBtn").onclick=()=>spin("paid");$("spinCenter").onclick=()=>me.freeReady?spin("free"):spin("paid");
+async function exchange(key){try{const d=await api("/api/exchange",{method:"POST",body:JSON.stringify({key})});me=await api("/api/me");updateMe();showModal("Заявка создана",`Код: <span class="code">${d.code.code}</span><br><br>Срок действия: 10 дней.<br>Администратор получил заявку.`,key==="uc60"?"💎":"🏷️")}catch(e){toast(e.message)}}
+function copyRef(){navigator.clipboard?.writeText(me.referralLink);toast("Ссылка скопирована")}
+async function loadAdmin(){
+ if(!me.admin)return;
+ try{const d=await api("/api/admin/summary");$("aUsers").textContent=d.users;$("aSpins").textContent=d.spins;$("aPending").textContent=d.pending;$("aInv").textContent=d.inventory;
+ const fields=["exchange_uc_cost","exchange_discount_cost","uc_inventory","reward_50_weight","reward_100a_weight","reward_150a_weight","reward_100b_weight","reward_150b_weight","reward_discount_weight","reward_uc_weight","reward_nothing_weight"];
+ $("settings").innerHTML=fields.map(k=>`<label class="small">${k}<input id="s_${k}" value="${d.settings[k]||""}"></label>`).join("");
+ $("adminCodes").innerHTML=d.codes.map(c=>`<div class="item"><b>${c.reward_label}</b><br><span class="code">${c.code}</span><br><span class="small">${c.username?"@"+c.username:"ID "+c.user_id} · ${c.status}</span>${c.status==="pending"?`<div class="buttons" style="margin-top:8px"><button class="btn gold" onclick="codeAction(${c.id},'issued')">Выдано</button><button class="btn gray" onclick="codeAction(${c.id},'cancelled')">Аннулировать</button></div>`:""}</div>`).join("")||"<div class='small'>Кодов нет.</div>";
+ }catch(e){toast(e.message)}
+}
+async function saveSettings(){const keys=["exchange_uc_cost","exchange_discount_cost","uc_inventory","reward_50_weight","reward_100a_weight","reward_150a_weight","reward_100b_weight","reward_150b_weight","reward_discount_weight","reward_uc_weight","reward_nothing_weight"];const data={};keys.forEach(k=>data[k]=$("s_"+k).value);try{await api("/api/admin/settings",{method:"POST",body:JSON.stringify(data)});cfg=await api("/api/config");renderWheel();toast("Настройки сохранены");}catch(e){toast(e.message)}}
+async function codeAction(id,status){try{await api("/api/admin/code",{method:"POST",body:JSON.stringify({id,status})});loadAdmin()}catch(e){toast(e.message)}}
+(async()=>{try{cfg=await api("/api/config");renderWheel();me=await api("/api/me");updateMe()}catch(e){showModal("Ошибка",e.message,"⚠️")}})();
+</script>
+</body>
+</html>
