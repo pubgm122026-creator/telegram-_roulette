@@ -1,19 +1,18 @@
 {
-  "name": "telegram-roulette",
+  "name": "telegram-roulette-mini-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Telegram Mini App roulette + bot for Render",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": "20.x"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.7.0",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "telegraf": "^4.16.3"
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

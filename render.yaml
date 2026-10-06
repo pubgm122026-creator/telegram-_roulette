@@ -1,17 +1,16 @@
 services:
   - type: web
-    name: telegram-roulette
+    name: elite-force-roulette
     runtime: node
     plan: free
     buildCommand: npm install
     startCommand: npm start
-    healthCheckPath: /health
     envVars:
       - key: BOT_TOKEN
         sync: false
-      - key: BOT_USERNAME
+      - key: ADMIN_TELEGRAM_ID
         sync: false
-      - key: ADMIN_ID
+      - key: BOT_USERNAME
         sync: false
       - key: CHANNEL_USERNAME
         sync: false
@@ -19,5 +18,3 @@ services:
         sync: false
       - key: WEBAPP_URL
         sync: false
-      - key: START_COINS
-        value: "0"
