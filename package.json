@@ -1,18 +1,8 @@
 {
-  "name": "telegram-roulette-mini-app",
+  "name": "elite-force-mini-app",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
-  },
-  "dependencies": {
-    "better-sqlite3": "^11.7.0",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2"
-  },
-  "engines": {
-    "node": ">=20"
-  }
+  "scripts": {"start": "node server.js"},
+  "engines": {"node": ">=20"}
 }
